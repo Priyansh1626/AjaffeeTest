@@ -1,0 +1,11 @@
+.incoming-message{
+    background-color: lightgray !important;
+    width: fit-content;
+    /* border: none; */
+}
+
+.outgoing-message{
+    width: fit-content;
+    background-color: black;
+    color:white;
+}
