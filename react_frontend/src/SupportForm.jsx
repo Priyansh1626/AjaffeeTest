@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function SupportForm() {
+export default function SupportForm({ setShowSupportForm, setMessages }) {
   const [info, setInfo] = useState({
     name: "",
     email: "",
@@ -16,15 +16,22 @@ export default function SupportForm() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const apiUrl = "http://127.0.0.1:5000/support";
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(info),
+    // const apiUrl = "http://127.0.0.1:5000/support";
+    // // const apiUrl = "http://192.168.1.171:5000";
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(info),
+    // };
+    // await fetch(apiUrl, requestOptions);
+    setShowSupportForm(false);
+    const replyForEmail = {
+      message: "Submitted successfully",
+      sender: "ChatGPT",
     };
-    await fetch(apiUrl, requestOptions);
+    // setMessages([...messages, replyForEmail]);
   };
 
   const inputStyle = {
@@ -85,7 +92,7 @@ export default function SupportForm() {
             backgroundColor: "black",
             color: "white",
           }}
-          onClick={(e) => handleSubmit(e)}
+          onClick={(e) => handleFormSubmit(e)}
         >
           Submit
         </button>
