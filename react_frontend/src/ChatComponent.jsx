@@ -282,7 +282,6 @@ function ChatComponent() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const apiUrl = "http://127.0.0.1:5000/support";
-    // const apiUrl = "http://192.168.1.171:5000";
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -295,6 +294,11 @@ function ChatComponent() {
       sender: "ChatGPT",
     };
     setMessages([...messages, replyForEmail]);
+    setInfo({
+      name: "",
+      email: "",
+      ps: "",
+    });
   };
 
   const inputStyle = {
@@ -361,7 +365,6 @@ function ChatComponent() {
                 Close
               </div>
             </div>
-            {/* come here */}
             {showSupportFrom && (
               <div
                 style={{
