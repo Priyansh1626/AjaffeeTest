@@ -14,6 +14,8 @@ import {
 import ChatButtonLogo from "./assets/chatbot-button.png";
 import Suggestions from "./components/Layout/Suggestions.json";
 import "./ChatModule.css";
+import Spinner from "./components/Layout/Spinner";
+import { CircularProgress } from "@mui/material";
 // import SupportForm from "./SupportForm";
 // import {readFile, writeFile} from 'fs/promises'
 // import UserSupport from './UserSupport.json'
@@ -33,6 +35,7 @@ function ChatComponent() {
   const [showChatButton, setShowChatButton] = useState(true);
   const [showChatPanel, setShowChatPanel] = useState(false);
   const [showSupportFrom, setShowSupportForm] = useState(false);
+  const [isSupportOnProcess, setIsSupportOnProcess] = useState(false);
 
   const [isTyping, setIsTyping] = useState(false);
   const [typing, setTyping] = useState(false);
@@ -281,6 +284,7 @@ function ChatComponent() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setIsSupportOnProcess(true);
     const apiUrl = "http://127.0.0.1:5000/support";
     const requestOptions = {
       method: "POST",
@@ -293,6 +297,7 @@ function ChatComponent() {
       message: "Submitted successfully",
       sender: "ChatGPT",
     };
+    setIsSupportOnProcess(false);
     setMessages([...messages, replyForEmail]);
     setInfo({
       name: "",
@@ -366,6 +371,7 @@ function ChatComponent() {
               </div>
             </div>
             {showSupportFrom && (
+              // <Spinner />
               <div
                 style={{
                   backgroundColor: " white",
@@ -417,7 +423,9 @@ function ChatComponent() {
                     }}
                     onClick={(e) => handleFormSubmit(e)}
                   >
-                    Submit
+                    {isSupportOnProcess
+                        ? "Submitting"
+                      : "Submit"}
                   </button>
                 </div>
               </div>
