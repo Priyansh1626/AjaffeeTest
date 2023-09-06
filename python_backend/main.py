@@ -5,13 +5,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from langchain.document_loaders import UnstructuredURLLoader
-import pickle
-import faiss
-from langchain.vectorstores import FAISS
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.chains import RetrievalQAWithSourcesChain
-from langchain.chains.question_answering import load_qa_chain
+ 
 from langchain import OpenAI
 
 from datetime import datetime
@@ -64,7 +58,7 @@ def first():
     prompt=data['prompt']
     question = constants.prompt_template.format(Style=prompt)
     response=db_chain.run(question)
-    if(response=='Results not found, you can reach out with query on csd@ajaffe.com or do you want to reach out to customer support with your inquiry?' and os.getenv('STORE_LOGS')=='YES'):
+    if(response=='Results not found, you can reach out with query on csd@ajaffe.com or do you want to reach out to customer support with your inquiry?'):
         DATABASE_URL = 'mysql://u185343794_admin:1VZ/Qcgax>@217.21.73.201:3306/u185343794_ajaffee_va'
         time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         engine = create_engine(DATABASE_URL)
@@ -74,16 +68,7 @@ def first():
         new_entry_1 = MyTable(Input=prompt, Output=response, Time=time)
         session.add(new_entry_1)
         session.commit()
-    elif(os.getenv('STORE_LOGS')=='NO'):
-        DATABASE_URL = 'mysql://u185343794_admin:1VZ/Qcgax>@217.21.73.201:3306/u185343794_ajaffee_va' 
-        time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-        engine = create_engine(DATABASE_URL)
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        Base.metadata.create_all(engine)
-        new_entry_1 = MyTable(Input=prompt, Output=response,Time=time)
-        session.add(new_entry_1)
-        session.commit()
+    
     return jsonify({"response":response})
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
